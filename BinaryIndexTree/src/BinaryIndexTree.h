@@ -4,7 +4,7 @@ using namespace std;
 
 class BinaryIndexTree {
     public:
-        void print();
+        void print() const;
         int getSum(unsigned int ndxStart, unsigned int ndxEnd);
         void addItem();
         void updateItem(unsigned int ndx, int value);

@@ -1,8 +1,11 @@
 
 #include "BinaryIndexTree.h"
+#include <iostream>
 
-void BinaryIndexTree::print()
+void BinaryIndexTree::print() const
 {
+    vector<int>::const_iterator cit = items.begin();
+    cout << *cit << ' ';
 }
 
 int BinaryIndexTree::getSum(unsigned int ndxStart, unsigned int ndxEnd)
