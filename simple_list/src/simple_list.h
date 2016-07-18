@@ -1,6 +1,10 @@
 #ifndef SIMPLE_LIST_H_
 #define SIMPLE_LIST_H_
 
+/**
+ * NOTE: Just to make the functions name similar to STL, the underscore was taken as a
+ *       word separator in names of functions. Internal implementation sticks to camelStyleNaming
+ */
 #include <string>
 
 template <class T>
@@ -15,11 +19,22 @@ class ListNode
     ListNode *next;
 };
 
-// builds a string as a printed elements like "[item1,item2,...,itemN]"
+// Helper function
+// Builds a string as a printed elements like "[item1,item2,...,itemN]"
 template <class T>
-std::string trace(ListNode<T> *head); 
+std::string trace(ListNode<T> *head);
 
-// checks if list is not empty
+// Helper function
+// Builds a linked list out of array of items.
+template <class T>
+ListNode<T> *build_list(T arr[], unsigned int size);
+
+// Helper function
+// Deletes all the items from the list
+template <class T>
+void clean(ListNode<T> *head);
+
+// Checks if list is not empty
 template <class T>
 bool empty(ListNode<T> *head);
 
@@ -57,19 +72,39 @@ ListNode<T>* reverse(ListNode<T>* head);
 
 // Returns K-th item from the beginning. Returns default value if not available
 template <class T>
-T findKthFirst(ListNode<T> *head, unsigned int k);
+T find_kth_first(ListNode<T> *head, unsigned int k);
 
 // Returns K-th item from the end. Returns default value if not available
 template <class T>
-T findKthLast(ListNode<T>* head, unsigned int k);
+T find_kth_last(ListNode<T>* head, unsigned int k);
 
 // Returns a maximum item value. Returns default value if not available
 template <class T>
-T findMax(ListNode<T> *head);
+T find_max(ListNode<T> *head);
 
 // Returns a minimum item value. Returns default value if not available
 template <class T>
-T findMin(ListNode<T> *head);
+T find_min(ListNode<T> *head);
+
+// Delete node at position pos. Has no effect if out of range
+template <class T>
+void delete_at(ListNode<T> *head, unsigned int pos);
+
+// Checks if given list is a palindrome kind
+template <class T>
+bool is_palindrome(ListNode<T> *head);
+
+// Merges 2 sorter lists into a single. Returns a new head
+template <class T>
+ListNode<T> *merge(ListNode<T> *head1, ListNode<T> *head2);
+
+// Finds an element where 2 lists are intersected.
+template <class T>
+ListNode<T> *find_intersection(ListNode<T> *head1, ListNode<T> *head2);
+
+// Builds an Odd-Even mix of 2 linked lists
+template <class T>
+ListNode<T> *merge_odd_even(ListNode<T> *head1, ListNode<T> *head2);
 
 #include "simple_list.tcc"
 

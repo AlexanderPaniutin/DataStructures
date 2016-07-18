@@ -20,6 +20,38 @@ TEST(SimpleList, Trace)
     delete myList;
 }
 
+TEST(SimpleList, BuildList)
+{
+    EXPECT_EQ(NULL, build_list<int>(NULL, 0));
+
+    int arr1[] = {1};
+    ListNode<int> *head = build_list<int>(arr1, 1);
+    ASSERT_TRUE(head != NULL);
+    EXPECT_EQ(1, head->value);
+    EXPECT_EQ(NULL, head->next);
+    delete head;
+
+    int arr2[] = {1, 2};
+    head = build_list<int>(arr2, 2);
+    ASSERT_TRUE(head != NULL);
+    EXPECT_EQ(1, head->value);
+    ASSERT_TRUE(head->next != NULL);
+    EXPECT_EQ(2, head->next->value);
+    EXPECT_EQ(NULL, head->next->next);
+    delete head->next;
+    delete head;
+
+    int arr3[] = {31, 54, 32, 1, 934, 332, 0, 0, -1, 2};
+    head = build_list<int>(arr3, 10);
+    EXPECT_EQ("[31,54,32,1,934,332,0,0,-1,2]", trace<int>(head));
+    clean<int>(head);
+}
+
+TEST(SimpleList, Clean)
+{
+    // you cant really test clean. every system might behave differently
+}
+
 TEST(SimpleList, Empty)
 {
     ListNode<int> *myList = NULL;
@@ -204,18 +236,18 @@ TEST(SimpleList, Reverse)
 TEST(SimpleList, FindKthFirst)
 {
     ListNode<int> *myList = NULL;
-    EXPECT_EQ(0, findKthFirst<int>(myList, 0));
-    EXPECT_EQ(0, findKthFirst<int>(myList, 1));
+    EXPECT_EQ(0, find_kth_first<int>(myList, 0));
+    EXPECT_EQ(0, find_kth_first<int>(myList, 1));
 
     myList = new ListNode<int>(1);
-    EXPECT_EQ(1, findKthFirst<int>(myList, 0));
-    EXPECT_EQ(0, findKthFirst<int>(myList, 1));
+    EXPECT_EQ(1, find_kth_first<int>(myList, 0));
+    EXPECT_EQ(0, find_kth_first<int>(myList, 1));
 
     myList->next = new ListNode<int>(5);
     myList->next->next = new ListNode<int>(3);
-    EXPECT_EQ(3, findKthFirst<int>(myList, 2));
-    EXPECT_EQ(5, findKthFirst<int>(myList, 1));
-    EXPECT_EQ(0, findKthFirst<int>(myList, 3));
+    EXPECT_EQ(3, find_kth_first<int>(myList, 2));
+    EXPECT_EQ(5, find_kth_first<int>(myList, 1));
+    EXPECT_EQ(0, find_kth_first<int>(myList, 3));
 
     delete myList->next->next;
     delete myList->next;
@@ -225,19 +257,19 @@ TEST(SimpleList, FindKthFirst)
 TEST(SimpleList, FindKthLast)
 {
     ListNode<int> *myList = NULL;
-    EXPECT_EQ(0, findKthLast<int>(myList, 0));
-    EXPECT_EQ(0, findKthLast<int>(myList, 1));
+    EXPECT_EQ(0, find_kth_last<int>(myList, 0));
+    EXPECT_EQ(0, find_kth_last<int>(myList, 1));
 
     myList = new ListNode<int>(1);
-    EXPECT_EQ(1, findKthLast<int>(myList, 0));
-    EXPECT_EQ(0, findKthLast<int>(myList, 1));
+    EXPECT_EQ(1, find_kth_last<int>(myList, 0));
+    EXPECT_EQ(0, find_kth_last<int>(myList, 1));
 
     myList->next = new ListNode<int>(5);
     myList->next->next = new ListNode<int>(3);
-    EXPECT_EQ(3, findKthLast<int>(myList, 0));
-    EXPECT_EQ(1, findKthLast<int>(myList, 2));
-    EXPECT_EQ(5, findKthLast<int>(myList, 1));
-    EXPECT_EQ(0, findKthLast<int>(myList, 3));
+    EXPECT_EQ(3, find_kth_last<int>(myList, 0));
+    EXPECT_EQ(1, find_kth_last<int>(myList, 2));
+    EXPECT_EQ(5, find_kth_last<int>(myList, 1));
+    EXPECT_EQ(0, find_kth_last<int>(myList, 3));
 
     delete myList->next->next;
     delete myList->next;
@@ -247,28 +279,74 @@ TEST(SimpleList, FindKthLast)
 TEST(SimpleList, FindMax)
 {
     ListNode<int> *myList = NULL;
-    EXPECT_EQ(0, findMax<int>(myList));
+    EXPECT_EQ(0, find_max<int>(myList));
 
     myList = new ListNode<int>(1);
-    EXPECT_EQ(1, findMax<int>(myList));
+    EXPECT_EQ(1, find_max<int>(myList));
 
     myList->next = new ListNode<int>(5);
     myList->next->next = new ListNode<int>(3);
-    EXPECT_EQ(5, findMax<int>(myList));
+    EXPECT_EQ(5, find_max<int>(myList));
 
     // make 8 5 3
     myList->value = 8;
-    EXPECT_EQ(8, findMax<int>(myList));
+    EXPECT_EQ(8, find_max<int>(myList));
 
     // make 8 5 9
     myList->next->next->value = 9;
-    EXPECT_EQ(9, findMax<int>(myList));
+    EXPECT_EQ(9, find_max<int>(myList));
 
     delete myList->next->next;
     delete myList->next;
     delete myList;
 }
 
-TEST(SimpleList, DISABLED_FindMin)
+TEST(SimpleList, FindMin)
 {
+    ListNode<int> *myList = NULL;
+    EXPECT_EQ(0, find_min<int>(myList));
+
+    myList = new ListNode<int>(1);
+    EXPECT_EQ(1, find_min<int>(myList));
+
+    myList->next = new ListNode<int>(5);
+    myList->next->next = new ListNode<int>(3);
+    EXPECT_EQ(1, find_min<int>(myList));
+
+    // make 8 5 3
+    myList->value = 8;
+    EXPECT_EQ(3, find_min<int>(myList));
+
+    // make 8 5 9
+    myList->next->next->value = 9;
+    EXPECT_EQ(5, find_min<int>(myList));
+
+    delete myList->next->next;
+    delete myList->next;
+    delete myList;
+}
+
+TEST(SimpleList, DeleteAt)
+{
+
+}
+
+TEST(SimpleList, IsPalindrome)
+{
+
+}
+
+TEST(SimpleList, Merge)
+{
+
+}
+
+TEST(SimpleList, FindIntersection)
+{
+
+}
+
+TEST(SimpleList, MergeOddEven)
+{
+
 }

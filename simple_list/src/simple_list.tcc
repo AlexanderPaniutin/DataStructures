@@ -28,6 +28,41 @@ std::string trace(ListNode<T> *head)
 }
 
 template <class T>
+ListNode<T> *build_list(T arr[], unsigned int size)
+{
+    ListNode<T> *head = NULL;
+    ListNode<T> *tail = NULL;
+    for (int ndx=0; ndx<size; ++ndx)
+    {
+        ListNode<T> *item = new ListNode<T>(arr[ndx]);
+
+        if (head == NULL)
+        {
+            head = item;
+            tail = item;
+        }
+        else
+        {
+            tail->next = item;
+            tail = item;
+        }
+    }
+
+    return head;
+}
+
+template <class T>
+void clean(ListNode<T> *head)
+{
+    while (head != NULL)
+    {
+        ListNode<T> *item = head;
+        head = head->next;
+        delete item;
+    }
+}
+
+template <class T>
 bool empty(ListNode<T> *head)
 {
     return (head == NULL);
@@ -149,7 +184,7 @@ ListNode<T>* reverse(ListNode<T>* head)
 }
 
 template <class T>
-T findKthFirst(ListNode<T> *head, unsigned int k)
+T find_kth_first(ListNode<T> *head, unsigned int k)
 {
 
     if (head == NULL)
@@ -176,7 +211,7 @@ T findKthFirst(ListNode<T> *head, unsigned int k)
 }
 
 template <class T>
-T findKthLast(ListNode<T>* head, unsigned int k)
+T find_kth_last(ListNode<T>* head, unsigned int k)
 {
     if (head == NULL)
         return T();
@@ -208,7 +243,7 @@ T findKthLast(ListNode<T>* head, unsigned int k)
 }
 
 template <class T>
-T findMax(ListNode<T> *head)
+T find_max(ListNode<T> *head)
 {
     ListNode<int> *maxNode = head;
     ListNode<int> *runner = head;
@@ -228,7 +263,48 @@ T findMax(ListNode<T> *head)
 }
 
 template <class T>
-T findMin(ListNode<T> *head)
+T find_min(ListNode<T> *head)
 {
-    return T();
+    ListNode<int> *minNode = head;
+    ListNode<int> *runner = head;
+
+    while (runner != NULL)
+    {
+        if (minNode->value > runner->value)
+            minNode = runner;
+
+        runner = runner->next;
+    }
+
+    if (minNode != NULL)
+        return minNode->value;
+    else
+        return T();
 }
+
+template <class T>
+void delete_at(ListNode<T> *head, unsigned int pos)
+{
+
+}
+
+template <class T>
+bool is_palindrome(ListNode<T> *head)
+{
+
+}
+
+template <class T>
+ListNode<T> *merge(ListNode<T> *head1, ListNode<T> *head2)
+{
+
+}
+
+template <class T>
+ListNode<T> *find_intersection(ListNode<T> *head1, ListNode<T> *head2)
+{
+
+}
+
+template <class T>
+ListNode<T> *merge_odd_even(ListNode<T> *head1, ListNode<T> *head2);
