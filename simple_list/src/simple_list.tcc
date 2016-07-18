@@ -149,21 +149,82 @@ ListNode<T>* reverse(ListNode<T>* head)
 }
 
 template <class T>
-T findKthFirst(ListNode<T> *head, int k)
+T findKthFirst(ListNode<T> *head, unsigned int k)
 {
-    return T();
+
+    if (head == NULL)
+        return T();
+
+    unsigned int ndxCurr = 0;
+    ListNode<T> *runner = head;
+
+    while (runner != NULL)
+    {
+        if (ndxCurr == k)
+            break;
+
+        runner = runner->next;
+        // increment ndx only if next item is available
+        if (runner != NULL)
+            ++ndxCurr;
+    }
+
+    if (ndxCurr == k)
+        return runner->value;
+    else
+        return T();
 }
 
 template <class T>
-T findKthLast(ListNode<T>* head)
+T findKthLast(ListNode<T>* head, unsigned int k)
 {
-    return T();
+    if (head == NULL)
+        return T();
+
+    unsigned int ndxCurr = k;
+    ListNode<T> *runCurr = head;
+    ListNode<T> *runKth = head;
+
+    while (runCurr->next != NULL)
+    {
+        // delay runKth so it points to Kth item
+        if (ndxCurr > 0)
+        {
+            --ndxCurr;
+        }
+        else
+        {
+            runKth = runKth->next;
+        }
+
+        runCurr = runCurr->next;
+    }
+
+    if (ndxCurr == 0)
+        return runKth->value;
+    else
+        return T();
+
 }
 
 template <class T>
 T findMax(ListNode<T> *head)
 {
-    return T();
+    ListNode<int> *maxNode = head;
+    ListNode<int> *runner = head;
+
+    while (runner != NULL)
+    {
+        if (maxNode->value < runner->value)
+            maxNode = runner;
+
+        runner = runner->next;
+    }
+
+    if (maxNode != NULL)
+        return maxNode->value;
+    else
+        return T();
 }
 
 template <class T>

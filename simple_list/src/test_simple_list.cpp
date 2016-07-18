@@ -201,16 +201,72 @@ TEST(SimpleList, Reverse)
     delete newHead;
 }
 
-TEST(SimpleList, DISABLED_FindKthFirst)
+TEST(SimpleList, FindKthFirst)
 {
+    ListNode<int> *myList = NULL;
+    EXPECT_EQ(0, findKthFirst<int>(myList, 0));
+    EXPECT_EQ(0, findKthFirst<int>(myList, 1));
+
+    myList = new ListNode<int>(1);
+    EXPECT_EQ(1, findKthFirst<int>(myList, 0));
+    EXPECT_EQ(0, findKthFirst<int>(myList, 1));
+
+    myList->next = new ListNode<int>(5);
+    myList->next->next = new ListNode<int>(3);
+    EXPECT_EQ(3, findKthFirst<int>(myList, 2));
+    EXPECT_EQ(5, findKthFirst<int>(myList, 1));
+    EXPECT_EQ(0, findKthFirst<int>(myList, 3));
+
+    delete myList->next->next;
+    delete myList->next;
+    delete myList;
 }
 
-TEST(SimpleList, DISABLED_FindKthLast)
+TEST(SimpleList, FindKthLast)
 {
+    ListNode<int> *myList = NULL;
+    EXPECT_EQ(0, findKthLast<int>(myList, 0));
+    EXPECT_EQ(0, findKthLast<int>(myList, 1));
+
+    myList = new ListNode<int>(1);
+    EXPECT_EQ(1, findKthLast<int>(myList, 0));
+    EXPECT_EQ(0, findKthLast<int>(myList, 1));
+
+    myList->next = new ListNode<int>(5);
+    myList->next->next = new ListNode<int>(3);
+    EXPECT_EQ(3, findKthLast<int>(myList, 0));
+    EXPECT_EQ(1, findKthLast<int>(myList, 2));
+    EXPECT_EQ(5, findKthLast<int>(myList, 1));
+    EXPECT_EQ(0, findKthLast<int>(myList, 3));
+
+    delete myList->next->next;
+    delete myList->next;
+    delete myList;
 }
 
-TEST(SimpleList, DISABLED_FindMax)
+TEST(SimpleList, FindMax)
 {
+    ListNode<int> *myList = NULL;
+    EXPECT_EQ(0, findMax<int>(myList));
+
+    myList = new ListNode<int>(1);
+    EXPECT_EQ(1, findMax<int>(myList));
+
+    myList->next = new ListNode<int>(5);
+    myList->next->next = new ListNode<int>(3);
+    EXPECT_EQ(5, findMax<int>(myList));
+
+    // make 8 5 3
+    myList->value = 8;
+    EXPECT_EQ(8, findMax<int>(myList));
+
+    // make 8 5 9
+    myList->next->next->value = 9;
+    EXPECT_EQ(9, findMax<int>(myList));
+
+    delete myList->next->next;
+    delete myList->next;
+    delete myList;
 }
 
 TEST(SimpleList, DISABLED_FindMin)

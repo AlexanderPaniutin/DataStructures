@@ -31,7 +31,7 @@ unsigned int size(ListNode<T> *head);
 template <class T>
 ListNode<T>* push_back(ListNode<T> *head, const T &value);
 
-// Returns a value of the last item. -1 if empty
+// Returns a value of the last item. Returns default value if empty
 template <class T>
 T back(ListNode<T> *head);
 
@@ -43,7 +43,7 @@ ListNode<T>* pop_back(ListNode<T> *head);
 template <class T>
 ListNode<T>* push_front(ListNode<T> *head, const T &value);
 
-// Returns a value of the first item. -1 if empty
+// Returns a value of the first item. Returns default value if empty
 template <class T>
 T front(ListNode<T> *head);
 
@@ -55,19 +55,19 @@ ListNode<T>* pop_front(ListNode<T> *head);
 template <class T>
 ListNode<T>* reverse(ListNode<T>* head);
 
-// Returns K-th item from the beginning. -1 if not available
+// Returns K-th item from the beginning. Returns default value if not available
 template <class T>
-T findKthFirst(ListNode<T> *head, int k);
+T findKthFirst(ListNode<T> *head, unsigned int k);
 
-// Returns K-th item from the end. -1 if not available
+// Returns K-th item from the end. Returns default value if not available
 template <class T>
-T findKthLast(ListNode<T>* head);
+T findKthLast(ListNode<T>* head, unsigned int k);
 
-// Returns a maximum item value
+// Returns a maximum item value. Returns default value if not available
 template <class T>
 T findMax(ListNode<T> *head);
 
-// Returns a minimum item value
+// Returns a minimum item value. Returns default value if not available
 template <class T>
 T findMin(ListNode<T> *head);
 
