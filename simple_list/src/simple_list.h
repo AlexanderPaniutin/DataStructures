@@ -27,12 +27,12 @@ std::string trace(ListNode<T> *head);
 // Helper function
 // Builds a linked list out of array of items.
 template <class T>
-ListNode<T> *build_list(T arr[], unsigned int size);
+ListNode<T>* build_list(T arr[], unsigned int size);
 
 // Helper function
 // Deletes all the items from the list
 template <class T>
-void clean(ListNode<T> *head);
+void clear(ListNode<T> *head);
 
 // Checks if list is not empty
 template <class T>
@@ -88,7 +88,7 @@ T find_min(ListNode<T> *head);
 
 // Delete node at position pos. Has no effect if out of range
 template <class T>
-void delete_at(ListNode<T> *head, unsigned int pos);
+ListNode<T>* erase(ListNode<T> *head, unsigned int pos);
 
 // Checks if given list is a palindrome kind
 template <class T>
@@ -96,15 +96,15 @@ bool is_palindrome(ListNode<T> *head);
 
 // Merges 2 sorter lists into a single. Returns a new head
 template <class T>
-ListNode<T> *merge(ListNode<T> *head1, ListNode<T> *head2);
+ListNode<T>* merge(ListNode<T> *head1, ListNode<T> *head2);
 
 // Finds an element where 2 lists are intersected.
 template <class T>
-ListNode<T> *find_intersection(ListNode<T> *head1, ListNode<T> *head2);
+ListNode<T>* find_intersection(ListNode<T> *head1, ListNode<T> *head2);
 
 // Builds an Odd-Even mix of 2 linked lists
 template <class T>
-ListNode<T> *merge_odd_even(ListNode<T> *head1, ListNode<T> *head2);
+ListNode<T>* merge_odd_even(ListNode<T> *head1, ListNode<T> *head2);
 
 #include "simple_list.tcc"
 

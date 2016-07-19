@@ -52,7 +52,7 @@ ListNode<T> *build_list(T arr[], unsigned int size)
 }
 
 template <class T>
-void clean(ListNode<T> *head)
+void clear(ListNode<T> *head)
 {
     while (head != NULL)
     {
@@ -283,9 +283,32 @@ T find_min(ListNode<T> *head)
 }
 
 template <class T>
-void delete_at(ListNode<T> *head, unsigned int pos)
+ListNode<T>* erase(ListNode<T> *head, unsigned int pos)
 {
+    if (head == NULL)
+        return NULL;
 
+    unsigned int currPos = 0;
+    ListNode<T> **pRunner = &(head);
+    while ( (*pRunner) != NULL)
+    {
+        if (currPos == pos)
+        {
+            ListNode<T> *item = (*pRunner);
+            (*pRunner) = (*pRunner)->next;
+            delete item;
+
+            if (pos == 0)
+                head = (*pRunner);
+
+            break;
+        }
+
+        ++currPos;
+        pRunner = &((*pRunner)->next);
+    }
+
+    return head;
 }
 
 template <class T>

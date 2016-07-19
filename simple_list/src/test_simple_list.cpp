@@ -44,12 +44,12 @@ TEST(SimpleList, BuildList)
     int arr3[] = {31, 54, 32, 1, 934, 332, 0, 0, -1, 2};
     head = build_list<int>(arr3, 10);
     EXPECT_EQ("[31,54,32,1,934,332,0,0,-1,2]", trace<int>(head));
-    clean<int>(head);
+    clear<int>(head);
 }
 
 TEST(SimpleList, Clean)
 {
-    // you cant really test clean. every system might behave differently
+    // you cant really test clear. every system might behave differently
 }
 
 TEST(SimpleList, Empty)
@@ -326,9 +326,60 @@ TEST(SimpleList, FindMin)
     delete myList;
 }
 
-TEST(SimpleList, DeleteAt)
+TEST(SimpleList, EraseEmpty)
 {
+    ListNode<int> *myList = NULL;
+    EXPECT_EQ(NULL, erase<int>(myList, 0));
+}
 
+TEST(SimpleList, EraseSingleItem)
+{
+    ListNode<int> *myList = new ListNode<int>(1);
+    ListNode<int> *newHead = erase<int>(myList, 1);
+    ASSERT_TRUE(newHead != NULL);
+    EXPECT_EQ(1, newHead->value);
+    EXPECT_EQ(NULL, newHead->next);
+
+    newHead = erase<int>(myList, 0);
+    EXPECT_EQ(NULL, newHead);
+}
+
+TEST(SimpleList, EraseFirst)
+{
+    int arr1[] = {1, 2};
+    ListNode<int> *myList = build_list(arr1, 2);
+    ListNode<int> *newHead = erase<int>(myList, 0);
+    ASSERT_TRUE(newHead != NULL);
+    EXPECT_EQ(2, newHead->value);
+    EXPECT_EQ(NULL, newHead->next);
+
+    newHead = erase<int>(newHead, 0);
+    EXPECT_EQ(NULL, newHead);
+
+    int arr2[] = {1, 2, 3, 4, 5, 6, 7};
+    myList = build_list(arr2, 7);
+    newHead = erase<int>(myList, 0);
+    EXPECT_EQ("[2,3,4,5,6,7]", trace<int>(newHead));
+    clear<int>(newHead);
+}
+
+TEST(SimpleList, EraseLast)
+{
+    int arr1[] = {1, 2};
+    ListNode<int> *myList = build_list(arr1, 2);
+    ListNode<int> *newHead = erase<int>(myList, 1);
+    ASSERT_TRUE(newHead != NULL);
+    EXPECT_EQ(1, newHead->value);
+    EXPECT_EQ(NULL, newHead->next);
+
+    newHead = erase<int>(newHead, 0);
+    EXPECT_EQ(NULL, newHead);
+
+    int arr2[] = {1, 2, 3, 4, 5, 6, 7};
+    myList = build_list(arr2, 7);
+    newHead = erase<int>(myList, 6);
+    EXPECT_EQ("[1,2,3,4,5,6]", trace<int>(newHead));
+    clear<int>(newHead);
 }
 
 TEST(SimpleList, IsPalindrome)
