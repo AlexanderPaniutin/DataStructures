@@ -111,6 +111,14 @@ ListNode<T>* find_intersection(ListNode<T> *head1, ListNode<T> *head2);
 template <class T>
 ListNode<T>* merge_odd_even(ListNode<T> *head1, ListNode<T> *head2);
 
+// Finds whether a list is cycled
+template <class T>
+ListNode<T>* is_cycled(ListNode<T> *head);
+
+// Finds an element where cycle starts
+template <class T>
+ListNode<T>* find_cycle_head(ListNode<T> *head);
+
 #include "simple_list.tcc"
 
 #endif // SIMPLE_LIST_H

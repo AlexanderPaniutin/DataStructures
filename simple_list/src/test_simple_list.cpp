@@ -88,7 +88,6 @@ TEST(SimpleList, PushBack)
     EXPECT_EQ(NULL, myList->next->next);
     EXPECT_EQ("[0,1]", trace<int>(myList));
 
-
     delete myList->next;
     delete myList;
 }
@@ -448,14 +447,154 @@ TEST(SimpleList, IsPalindrome)
     clear<int>(myList);
 }
 
-TEST(SimpleList, Merge)
+TEST(SimpleList, MergeBothEmpty)
 {
-
+    EXPECT_EQ(NULL, merge<int>(NULL, NULL));
 }
 
-TEST(SimpleList, FindIntersection)
+TEST(SimpleList, MergeEmptyAndOne)
 {
+    ListNode<int> *list2 = new ListNode<int>(1);
+    ListNode<int> *merged = merge<int>(NULL, list2);
+    ASSERT_TRUE(merged != NULL);
+    EXPECT_EQ(1, merged->value);
+    EXPECT_EQ(NULL, merged->next);
+    clear<int>(merged);
+}
 
+TEST(SimpleList, MergedOneAndEmpty)
+{
+    ListNode<int> *list1 = new ListNode<int>(1);
+    ListNode<int> *merged = merge<int>(list1, NULL);
+    ASSERT_TRUE(merged != NULL);
+    EXPECT_EQ(1, merged->value);
+    EXPECT_EQ(NULL, merged->next);
+    clear<int>(merged);
+}
+
+TEST(SimpleList, MergeListAndEmpty)
+{
+    int arr[] = {1, 3, 4, 5, 7, 8, 10};
+    ListNode<int> *head = build_list<int>(arr, 7);
+    ListNode<int> *merged = merge<int>(head, NULL);
+    ASSERT_TRUE(merged != NULL);
+    EXPECT_EQ("[1,3,4,5,7,8,10]", trace<int>(merged));
+    clear<int>(merged);
+}
+
+TEST(SimpleList, MergeLikeConcat1)
+{
+    int arr1[] = {1, 3, 4, 5, 7, 8, 10};
+    int arr2[] = {13, 15, 16, 22, 32, 50};
+    ListNode<int> *head1 = build_list<int>(arr1, 7);
+    ListNode<int> *head2 = build_list<int>(arr2, 6);
+    ListNode<int> *merged = merge<int>(head1, head2);
+    ASSERT_TRUE(merged != NULL);
+    EXPECT_EQ("[1,3,4,5,7,8,10,13,15,16,22,32,50]", trace<int>(merged));
+    clear<int>(merged);
+}
+
+TEST(SimpleList, MergeLikeConcat2)
+{
+    int arr1[] = {13, 15, 16, 22, 32, 50};
+    int arr2[] = {1, 3, 4, 5, 7, 8, 10};
+    ListNode<int> *head1 = build_list<int>(arr1, 6);
+    ListNode<int> *head2 = build_list<int>(arr2, 7);
+    ListNode<int> *merged = merge<int>(head1, head2);
+    ASSERT_TRUE(merged != NULL);
+    EXPECT_EQ("[1,3,4,5,7,8,10,13,15,16,22,32,50]", trace<int>(merged));
+    clear<int>(merged);
+}
+
+TEST(SimpleList, MergeRandom)
+{
+    int arr1[] = {4, 6, 10, 22, 100, 101};
+    int arr2[] = {1, 3, 6, 20, 21, 21, 22, 100, 300};
+    ListNode<int> *head1 = build_list<int>(arr1, 6);
+    ListNode<int> *head2 = build_list<int>(arr2, 9);
+    ListNode<int> *merged = merge<int>(head1, head2);
+    ASSERT_TRUE(merged != NULL);
+    EXPECT_EQ("[1,3,4,6,6,10,20,21,21,22,22,100,100,101,300]", trace<int>(merged));
+    clear<int>(merged);
+}
+
+TEST(SimpleList, MergeEmptyAndList)
+{
+    int arr[] = {2, 3, 4, 6, 12};
+    ListNode<int> *head = build_list<int>(arr, 5);
+    ListNode<int> *merged = merge<int>(head, NULL);
+    ASSERT_TRUE(merged != NULL);
+    EXPECT_EQ("[2,3,4,6,12]", trace<int>(merged));
+    clear<int>(merged);
+}
+
+TEST(SimpleList, FindIntersectionEmptyEmpty)
+{
+    EXPECT_EQ(NULL, find_intersection<int>(NULL, NULL));
+}
+
+TEST(SimpleList, FindIntersectionFirstEmpty)
+{
+    int arr[] = {2, 3, 4, 6, 12};
+    ListNode<int> *head = build_list<int>(arr, 5);
+    EXPECT_EQ(NULL, find_intersection<int>(NULL, head));
+    clear<int>(head);
+}
+
+TEST(SimpleList, FindIntersectionSecondEmpty)
+{
+    int arr[] = {2, 3, 4, 6, 12};
+    ListNode<int> *head = build_list<int>(arr, 5);
+    EXPECT_EQ(NULL, find_intersection<int>(head, NULL));
+    clear<int>(head);
+}
+
+TEST(SimpleList, FindIntersectionNoCrossing)
+{
+    int arr1[] = {4, 6, 10, 22, 100, 101};
+    int arr2[] = {1, 3, 6, 20, 21, 21, 22, 100, 300};
+    ListNode<int> *head1 = build_list<int>(arr1, 6);
+    ListNode<int> *head2 = build_list<int>(arr2, 9);
+    EXPECT_EQ(NULL, find_intersection<int>(head1, head2));
+    clear<int>(head1);
+    clear<int>(head2);
+}
+
+TEST(SimpleList, FindIntersectionSameFirst)
+{
+    int arr1[] = {4, 6, 10, 22, 100, 101};
+    ListNode<int> *head1 = build_list<int>(arr1, 6);
+    ListNode<int> *head2 = head1;
+    ListNode<int> *intrItem = find_intersection<int>(head1, head2);
+    EXPECT_EQ(intrItem, head1);
+    clear<int>(head1);
+}
+
+TEST(SimpleList, FindIntersectionSameLast)
+{
+    int arr1[] = {4, 6, 10, 22, 100, 101};
+    ListNode<int> *head1 = build_list<int>(arr1, 6);
+    ListNode<int> *lastItem = head1->next->next->next->next->next;
+    ListNode<int> *head2 = lastItem;
+    ListNode<int> *intrItem = find_intersection<int>(head1, head2);
+    EXPECT_EQ(intrItem, lastItem);
+    clear<int>(head1);
+}
+
+TEST(SimpleList, FindIntersectionSameMiddle)
+{
+    int arr1[] = {4, 6, 10, 22, 100, 101};
+    int arr2[] = {4, 6};
+    ListNode<int> *head1 = build_list<int>(arr1, 6);
+    ListNode<int> *head2 = build_list<int>(arr2, 2);
+    // this will make head2 like 4, 6, 6, 10, 22, 100, 101
+    head2->next->next = head1->next;
+    ListNode<int> *intrItem = find_intersection<int>(head1, head2);
+    EXPECT_EQ(intrItem, head1->next);
+    EXPECT_EQ(intrItem, head2->next->next);
+    clear<int>(head1);
+    head2->next->next = NULL;
+    clear<int>(head2);
 }
 
 TEST(SimpleList, MergeOddEven)

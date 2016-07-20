@@ -360,14 +360,107 @@ bool is_palindrome(ListNode<T> *head)
 template <class T>
 ListNode<T> *merge(ListNode<T> *head1, ListNode<T> *head2)
 {
+    // check if any empty
+    if (head1 == NULL)
+        return head2;
 
+    if (head2 == NULL)
+        return head1;
+
+    ListNode<T> *pRunner1 = head1;
+    ListNode<T> *pRunner2 = head2;
+
+    ListNode<T> *newHead = NULL;
+    ListNode<T> *newTail = NULL;
+
+    while (pRunner1 != NULL && pRunner2 != NULL)
+    {
+        ListNode<T> *newItem = NULL;
+        if (pRunner1->value < pRunner2->value)
+        {
+            newItem = pRunner1;
+            pRunner1 = pRunner1->next;
+        }
+        else
+        {
+            newItem = pRunner2;
+            pRunner2 = pRunner2->next;
+        }
+        newItem->next = NULL;
+
+        if (newHead == NULL)
+        {
+            newHead = newItem;
+            newTail = newItem;
+        }
+        else
+        {
+            newTail->next = newItem;
+            newTail = newItem;
+        }
+    }
+
+    // check for tails
+    if (pRunner1 != NULL)
+    {
+        newTail->next = pRunner1;
+    }
+
+    if (pRunner2 != NULL)
+    {
+        newTail->next = pRunner2;
+    }
+
+    return newHead;
 }
 
 template <class T>
 ListNode<T> *find_intersection(ListNode<T> *head1, ListNode<T> *head2)
 {
+    unsigned int size1 = size<T>(head1);
+    unsigned int size2 = size<T>(head2);
 
+    ListNode<int> *pRunner1 = head1;
+    ListNode<int> *pRunner2 = head2;
+
+    // align size
+    while (size1 > size2)
+    {
+        pRunner1 = pRunner1->next;
+        --size1;
+    }
+
+    while (size2 > size1)
+    {
+        pRunner2 = pRunner2->next;
+        --size2;
+    }
+
+    // compare nodes
+    ListNode<int> *intrNode = NULL;
+    while (pRunner1 != NULL)
+    {
+        if (pRunner1 == pRunner2)
+        {
+            intrNode = pRunner1;
+            break;
+        }
+
+        pRunner1 = pRunner1->next;
+        pRunner2 = pRunner2->next;
+    }
+
+    return intrNode;
 }
 
 template <class T>
-ListNode<T> *merge_odd_even(ListNode<T> *head1, ListNode<T> *head2);
+ListNode<T> *merge_odd_even(ListNode<T> *head1, ListNode<T> *head2)
+{
+    // TODO
+}
+
+template <class T>
+ListNode<T>* find_cycle_head(ListNode<T> *head)
+{
+    // TODO
+}
