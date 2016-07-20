@@ -233,6 +233,44 @@ TEST(SimpleList, Reverse)
     delete newHead;
 }
 
+TEST(SimpleList, FindMiddle)
+{
+    ListNode<int> *myList = NULL;
+    ListNode<int> *midItem = find_middle<int>(myList);
+    EXPECT_EQ(NULL, midItem);
+
+    // check 1 item. middle should point to the same item
+    myList = new ListNode<int>(0);
+    midItem = find_middle<int>(myList);
+    ASSERT_TRUE(midItem != NULL);
+    EXPECT_EQ(0, midItem->value);
+    EXPECT_EQ(NULL, midItem->next);
+
+    // if 2 items are in the list, middle will point to the second
+    myList->next = new ListNode<int>(1);
+    midItem = find_middle<int>(myList);
+    ASSERT_TRUE(midItem != NULL);
+    EXPECT_EQ(1, midItem->value);
+
+    clear<int>(myList);
+
+    int arr1[] = {0, 1, 2, 3, 4, 5, 6, 7, 8};
+    myList = build_list<int>(arr1, 9);
+    midItem = find_middle<int>(myList);
+    ASSERT_TRUE(midItem != NULL);
+    EXPECT_EQ(4, midItem->value);
+
+    clear<int>(myList);
+
+    int arr2[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    myList = build_list<int>(arr2, 10);
+    midItem = find_middle<int>(myList);
+    ASSERT_TRUE(midItem != NULL);
+    EXPECT_EQ(5, midItem->value);
+
+    clear<int>(myList);
+}
+
 TEST(SimpleList, FindKthFirst)
 {
     ListNode<int> *myList = NULL;

@@ -70,6 +70,10 @@ ListNode<T>* pop_front(ListNode<T> *head);
 template <class T>
 ListNode<T>* reverse(ListNode<T>* head);
 
+// Returns an item which points to the middle of the list
+template <class T>
+ListNode<T>* find_middle(ListNode<T> *head);
+
 // Returns K-th item from the beginning. Returns default value if not available
 template <class T>
 T find_kth_first(ListNode<T> *head, unsigned int k);
@@ -91,6 +95,7 @@ template <class T>
 ListNode<T>* erase(ListNode<T> *head, unsigned int pos);
 
 // Checks if given list is a palindrome kind
+// NOTE: uses find_middle and reverse
 template <class T>
 bool is_palindrome(ListNode<T> *head);
 

@@ -184,6 +184,24 @@ ListNode<T>* reverse(ListNode<T>* head)
 }
 
 template <class T>
+ListNode<T>* find_middle(ListNode<T> *head)
+{
+    ListNode<T> *pRunner = head;
+    ListNode<T> *pHalfRunner = head;
+    bool isEven = true; // to control slow moving
+    while (pRunner != NULL)
+    {
+        if (!isEven)
+            pHalfRunner = pHalfRunner->next;
+
+        pRunner = pRunner->next;
+        isEven = !isEven;
+    }
+
+    return pHalfRunner;
+}
+
+template <class T>
 T find_kth_first(ListNode<T> *head, unsigned int k)
 {
 
