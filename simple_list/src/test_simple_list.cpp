@@ -251,7 +251,6 @@ TEST(SimpleList, FindMiddle)
     midItem = find_middle<int>(myList);
     ASSERT_TRUE(midItem != NULL);
     EXPECT_EQ(1, midItem->value);
-
     clear<int>(myList);
 
     int arr1[] = {0, 1, 2, 3, 4, 5, 6, 7, 8};
@@ -259,7 +258,6 @@ TEST(SimpleList, FindMiddle)
     midItem = find_middle<int>(myList);
     ASSERT_TRUE(midItem != NULL);
     EXPECT_EQ(4, midItem->value);
-
     clear<int>(myList);
 
     int arr2[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
@@ -267,7 +265,6 @@ TEST(SimpleList, FindMiddle)
     midItem = find_middle<int>(myList);
     ASSERT_TRUE(midItem != NULL);
     EXPECT_EQ(5, midItem->value);
-
     clear<int>(myList);
 }
 
@@ -422,7 +419,33 @@ TEST(SimpleList, EraseLast)
 
 TEST(SimpleList, IsPalindrome)
 {
+    ListNode<int> *myList = NULL;
+    EXPECT_EQ(false, is_palindrome<int>(myList));
 
+    myList = new ListNode<int>(1);
+    EXPECT_EQ(true, is_palindrome<int>(myList));
+
+    myList->next = new ListNode<int>(1);
+    EXPECT_EQ(true, is_palindrome<int>(myList));
+
+    myList->next->value = 2;
+    EXPECT_EQ(false, is_palindrome<int>(myList));
+    clear<int>(myList);
+
+    int arr1[] = {1, 2, 3, 3, 2, 1};
+    myList = build_list<int>(arr1, 6);
+    EXPECT_EQ(true, is_palindrome<int>(myList));
+    clear<int>(myList);
+
+    int arr2[] = {1, 2, 3, 2, 1};
+    myList = build_list<int>(arr2, 5);
+    EXPECT_EQ(true, is_palindrome<int>(myList));
+    clear<int>(myList);
+
+    int arr3[] = {1, 2, 3, 2, 1, 6};
+    myList = build_list<int>(arr3, 6);
+    EXPECT_EQ(false, is_palindrome<int>(myList));
+    clear<int>(myList);
 }
 
 TEST(SimpleList, Merge)

@@ -332,7 +332,29 @@ ListNode<T>* erase(ListNode<T> *head, unsigned int pos)
 template <class T>
 bool is_palindrome(ListNode<T> *head)
 {
+    if (head == NULL)
+        return false;
 
+    if (head->next == NULL)
+        return true;
+
+    ListNode<T> *midItem = find_middle<T>(head);
+    ListNode<T> *pRevRunner = reverse<T>(midItem);
+    ListNode<T> *pFwdRunner = head;
+
+    bool isPalindrome = true;
+    while (pFwdRunner != NULL && pRevRunner != NULL)
+    {
+        if (pFwdRunner->value != pRevRunner->value)
+        {
+            isPalindrome = false;
+            break;
+        }
+        pFwdRunner = pFwdRunner->next;
+        pRevRunner = pRevRunner->next;
+    }
+
+    return isPalindrome;
 }
 
 template <class T>
