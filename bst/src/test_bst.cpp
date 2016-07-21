@@ -1,20 +1,20 @@
 #include <gtest/gtest.h>
 #include "bst.h"
 
-TEST(BST, TraceEmpty)
+TEST(BinaryTree, TraceEmpty)
 {
     TreeNode<int> *head = NULL;
     EXPECT_EQ("[]", trace<int>(head));
 }
 
-TEST(BST, TraceSimpleNode)
+TEST(BinaryTree, TraceSimpleNode)
 {
     TreeNode<int> *head = new TreeNode<int>(1);
     EXPECT_EQ("[1]", trace<int>(head));
     clear_rcr<int>(head);
 }
 
-TEST(BST, TraceRandom1)
+TEST(BinaryTree, TraceRandom1)
 {
     TreeNode<int> *head = new TreeNode<int>(1);
     head->left = new TreeNode<int>(11);
@@ -23,7 +23,7 @@ TEST(BST, TraceRandom1)
     clear_rcr<int>(head);
 }
 
-TEST(BST, TracePerfectTree)
+TEST(BinaryTree, TracePerfectTree)
 {
     TreeNode<int> *head = new TreeNode<int>(1);
     head->left = new TreeNode<int>(11);
@@ -36,18 +36,18 @@ TEST(BST, TracePerfectTree)
     clear_rcr<int>(head);
 }
 
-TEST(BST, BuildRcrEmpty)
+TEST(BinaryTree, BuildRcrEmpty)
 {
     EXPECT_EQ(NULL, build_list_rcr(NULL, 0));
 }
 
-TEST(BST, BuildRcrSingleEmpty)
+TEST(BinaryTree, BuildRcrSingleEmpty)
 {
     int arr[] = {0};
     EXPECT_EQ(NULL, build_list_rcr(arr, 1));
 }
 
-TEST(BST, BuildRcrSingle)
+TEST(BinaryTree, BuildRcrSingle)
 {
     int arr[] = {1};
     TreeNode<int> *head = build_list_rcr(arr, 1);
@@ -58,13 +58,13 @@ TEST(BST, BuildRcrSingle)
     clear_rcr<int>(head);
 }
 
-TEST(BST, BuildWithEmptyRoot)
+TEST(BinaryTree, BuildWithEmptyRoot)
 {
     int arr[] = {11,1,12, 0, 21,2,0};
     EXPECT_EQ(NULL, build_list_rcr(arr, 7));
 }
 
-TEST(BST, BuildListKindLeft)
+TEST(BinaryTree, BuildListKindLeft)
 {
     int arr[] = {1111,111,0, 11, 0,0,0,  1,  0,0,0, 0, 0,0,0};
     TreeNode<int> *head = build_list_rcr(arr, 15);
@@ -74,7 +74,7 @@ TEST(BST, BuildListKindLeft)
     clear_rcr<int>(head);
 }
 
-TEST(BST, BuildListKindRight)
+TEST(BinaryTree, BuildListKindRight)
 {
     int arr[] = {0,0,0, 0, 0,0,0,  1,  0,0,0, 12, 0,122,1222};
     TreeNode<int> *head = build_list_rcr(arr, 15);
@@ -84,19 +84,31 @@ TEST(BST, BuildListKindRight)
     clear_rcr<int>(head);
 }
 
-TEST(BST, LevelTraverseEmpty)
+TEST(BinaryTree, LevelTraverseEmpty)
 {
     EXPECT_EQ("", levelTraverse<int>(NULL));
 }
 
-TEST(BST, LevelTraverseSingleItem)
+TEST(BinaryTree, LevelTraverseSingleItem)
 {
     TreeNode<int> *head = new TreeNode<int>(1);
     EXPECT_EQ("1", levelTraverse<int>(head));
     clear_itr<int>(head);
 }
 
-TEST(BST, LevelTraversePerfect)
+TEST(BinaryTree, LevelTraverseRandom)
+{
+    // level                                         0
+    // level                     1                                      1
+    // level           2                  2                   2                  2
+    // level      3        3         3        3          3        3         3        3
+    int arr[] = { 0   ,0  ,0   , 11, 0,   112,1122,  1,  0,   0,  0,    0,  0,   0,  0};
+    TreeNode<int> *head = build_list_rcr(arr, 15);
+    EXPECT_EQ("1,11,112,1122", levelTraverse<int>(head));
+    clear_rcr<int>(head);
+}
+
+TEST(BinaryTree, LevelTraversePerfect)
 {
     // level                                         0
     // level                     1                                      1
@@ -109,19 +121,31 @@ TEST(BST, LevelTraversePerfect)
 }
 
 
-TEST(BST, DepthTraverseEmpty)
+TEST(BinaryTree, DepthTraverseEmpty)
 {
     EXPECT_EQ("", depthTraverse<int>(NULL));
 }
 
-TEST(BST, DepthTraverseSingle)
+TEST(BinaryTree, DepthTraverseSingle)
 {
     TreeNode<int> *head = new TreeNode<int>(1);
     EXPECT_EQ("1", depthTraverse<int>(head));
     clear_rcr<int>(head);
 }
 
-TEST(BST, DepthTraversePerfect)
+TEST(BinaryTree, DepthTraverseRandom)
+{
+    // level                                         0
+    // level                     1                                      1
+    // level           2                  2                   2                  2
+    // level      3        3         3        3          3        3         3        3
+    int arr[] = { 0   ,0  ,0   , 11, 0,   112,1122,  1,  0,   0,  0,    0,  0,   0,  0};
+    TreeNode<int> *head = build_list_rcr(arr, 15);
+    EXPECT_EQ("1,11,112,1122", depthTraverse<int>(head));
+    clear_rcr<int>(head);
+}
+
+TEST(BinaryTree, DepthTraversePerfect)
 {
     // level                                         0
     // level                     1                                      1
@@ -133,21 +157,31 @@ TEST(BST, DepthTraversePerfect)
     clear_rcr<int>(head);
 }
 
-TEST(BST, PreOrderTraverseEmpty)
+TEST(BinaryTree, PreOrderTraverseEmpty)
+{
+    EXPECT_EQ("", pre_order_traverse<int>(NULL));
+}
+
+TEST(BinaryTree, PreOrderTraverseSingle)
 {
     TreeNode<int> *head = new TreeNode<int>(1);
     EXPECT_EQ("1", pre_order_traverse<int>(head));
     clear_rcr<int>(head);
 }
 
-TEST(BST, PreOrderTraverseSingle)
+TEST(BinaryTree, PreOrderTraverseRandom)
 {
-    TreeNode<int> *head = new TreeNode<int>(1);
-    EXPECT_EQ("1", pre_order_traverse<int>(head));
+    // level                                         0
+    // level                     1                                      1
+    // level           2                  2                   2                  2
+    // level      3        3         3        3          3        3         3        3
+    int arr[] = { 0   ,0  ,0   , 11, 0,   112,1122,  1,  0,   0,  0,    0,  0,   0,  0};
+    TreeNode<int> *head = build_list_rcr(arr, 15);
+    EXPECT_EQ("1,11,112,1122", pre_order_traverse<int>(head));
     clear_rcr<int>(head);
 }
 
-TEST(BST, PreOrderTraversePerfect)
+TEST(BinaryTree, PreOrderTraversePerfect)
 {
     // level                                         0
     // level                     1                                      1
@@ -155,23 +189,35 @@ TEST(BST, PreOrderTraversePerfect)
     // level      3        3         3        3          3        3         3        3
     int arr[] = { 1111,111,1112, 11, 1121,112,1122,  1,  1211,121,1212, 12, 1221,122,1222};
     TreeNode<int> *head = build_list_rcr(arr, 15);
-    EXPECT_EQ("1,11,111,1111,1112,112,1121,1122,12,121,1211,1212,122,1221,1222", depthTraverse<int>(head));
+    EXPECT_EQ("1,11,111,1111,1112,112,1121,1122,12,121,1211,1212,122,1221,1222", pre_order_traverse<int>(head));
     clear_rcr<int>(head);
 }
 
-TEST(BST, InOrderTraverseEmpty)
+TEST(BinaryTree, InOrderTraverseEmpty)
 {
     EXPECT_EQ("", in_order_traverse<int>(NULL));
 }
 
-TEST(BST, InOrderTraverseSingle)
+TEST(BinaryTree, InOrderTraverseSingle)
 {
     TreeNode<int> *head = new TreeNode<int>(1);
     EXPECT_EQ("1", in_order_traverse<int>(head));
     clear_rcr<int>(head);
 }
 
-TEST(BST, InOrderTraversePerfect)
+TEST(BinaryTree, InOrderTraverseRandom)
+{
+    // level                                         0
+    // level                     1                                      1
+    // level           2                  2                   2                  2
+    // level      3        3         3        3          3        3         3        3
+    int arr[] = { 0   ,0  ,0   , 11, 0,   112,1122,  1,  0,   0,  0,    0,  0,   0,  0};
+    TreeNode<int> *head = build_list_rcr(arr, 15);
+    EXPECT_EQ("11,112,1122,1", in_order_traverse<int>(head));
+    clear_rcr<int>(head);
+}
+
+TEST(BinaryTree, InOrderTraversePerfect)
 {
     // level                                         0
     // level                     1                                      1
@@ -183,12 +229,12 @@ TEST(BST, InOrderTraversePerfect)
     clear_rcr<int>(head);
 }
 
-TEST(BST, DISABLED_PostOrderTraverseEmpty)
+TEST(BinaryTree, PostOrderTraverseEmpty)
 {
     EXPECT_EQ("", post_order_traverse_1<int>(NULL));
 }
 
-TEST(BST, DISABLED_PostOrderTraverseSingle)
+TEST(BinaryTree, DISABLED_PostOrderTraverse1Single)
 {
     TreeNode<int> *head = new TreeNode<int>(1);
     EXPECT_EQ("1", post_order_traverse_1<int>(head));
@@ -196,7 +242,7 @@ TEST(BST, DISABLED_PostOrderTraverseSingle)
 }
 
 
-TEST(BST, DISABLED_PostOrderTraverseRandom)
+TEST(BinaryTree, PostOrderTraverse1Random)
 {
     // level                                         0
     // level                     1                                      1
@@ -208,7 +254,7 @@ TEST(BST, DISABLED_PostOrderTraverseRandom)
     clear_rcr<int>(head);
 }
 
-TEST(BST, DISABLED_PostOrderTraversePerfect)
+TEST(BinaryTree, PostOrderTraverse1Perfect)
 {
     // level                                         0
     // level                     1                                      1
@@ -220,12 +266,12 @@ TEST(BST, DISABLED_PostOrderTraversePerfect)
     clear_rcr<int>(head);
 }
 
-TEST(BST, PostOrderTraverse2Empty)
+TEST(BinaryTree, PostOrderTraverse2Empty)
 {
     EXPECT_EQ("", post_order_traverse_2<int>(NULL));
 }
 
-TEST(BST, PostOrderTraverse2Single)
+TEST(BinaryTree, PostOrderTraverse2Single)
 {
     TreeNode<int> *head = new TreeNode<int>(1);
     EXPECT_EQ("1", post_order_traverse_2<int>(head));
@@ -233,7 +279,7 @@ TEST(BST, PostOrderTraverse2Single)
 }
 
 
-TEST(BST, PostOrderTraverse2Random)
+TEST(BinaryTree, PostOrderTraverse2Random)
 {
     // level                                         0
     // level                     1                                      1
@@ -245,7 +291,7 @@ TEST(BST, PostOrderTraverse2Random)
     clear_rcr<int>(head);
 }
 
-TEST(BST, PostOrderTraverse2Perfect)
+TEST(BinaryTree, PostOrderTraverse2Perfect)
 {
     // level                                         0
     // level                     1                                      1
@@ -254,5 +300,91 @@ TEST(BST, PostOrderTraverse2Perfect)
     int arr[] = { 1111,111,1112, 11, 1121,112,1122,  1,  1211,121,1212, 12, 1221,122,1222};
     TreeNode<int> *head = build_list_rcr(arr, 15);
     EXPECT_EQ("1111,1112,111,1121,1122,112,11,1211,1212,121,1221,1222,122,12,1", post_order_traverse_2<int>(head));
+    clear_rcr<int>(head);
+}
+
+// My custom algorithm that uses self managed stack
+TEST(BinaryTree, MyPreOrderTraverseEmpty)
+{
+    EXPECT_EQ("", my_pre_order_traverse<int>(NULL));
+}
+
+TEST(BinaryTree, MyPreOrderTraverseSingle)
+{
+    TreeNode<int> *head = new TreeNode<int>(1);
+    EXPECT_EQ("1", my_pre_order_traverse<int>(head));
+    clear_rcr<int>(head);
+}
+
+TEST(BinaryTree, MyPreOrderTraversePerfect)
+{
+    // level                                         0
+    // level                     1                                      1
+    // level           2                  2                   2                  2
+    // level      3        3         3        3          3        3         3        3
+    int arr[] = { 1111,111,1112, 11, 1121,112,1122,  1,  1211,121,1212, 12, 1221,122,1222};
+    TreeNode<int> *head = build_list_rcr(arr, 15);
+    EXPECT_EQ("1,11,111,1111,1112,112,1121,1122,12,121,1211,1212,122,1221,1222", my_pre_order_traverse<int>(head));
+    clear_rcr<int>(head);
+}
+
+TEST(BinaryTree, MyInOrderTraverseEmpty)
+{
+EXPECT_EQ("", my_in_order_traverse<int>(NULL));
+}
+
+TEST(BinaryTree, MYInOrderTraverseSingle)
+{
+    TreeNode<int> *head = new TreeNode<int>(1);
+    EXPECT_EQ("1", my_in_order_traverse<int>(head));
+    clear_rcr<int>(head);
+}
+
+TEST(BinaryTree, MyInOrderTraversePerfect)
+{
+    // level                                         0
+    // level                     1                                      1
+    // level           2                  2                   2                  2
+    // level      3        3         3        3          3        3         3        3
+    int arr[] = { 1111,111,1112, 11, 1121,112,1122,  1,  1211,121,1212, 12, 1221,122,1222};
+    TreeNode<int> *head = build_list_rcr(arr, 15);
+    EXPECT_EQ("1111,111,1112,11,1121,112,1122,1,1211,121,1212,12,1221,122,1222", my_in_order_traverse<int>(head));
+    clear_rcr<int>(head);
+}
+
+TEST(BinaryTree, MyPostOrderTraverse2Empty)
+{
+    EXPECT_EQ("", my_post_order_traverse<int>(NULL));
+}
+
+TEST(BinaryTree, MyPostOrderTraverse2Single)
+{
+    TreeNode<int> *head = new TreeNode<int>(1);
+    EXPECT_EQ("1", my_post_order_traverse<int>(head));
+    clear_rcr<int>(head);
+}
+
+
+TEST(BinaryTree, MyPostOrderTraverse2Random)
+{
+    // level                                         0
+    // level                     1                                      1
+    // level           2                  2                   2                  2
+    // level      3        3         3        3          3        3         3        3
+    int arr[] = { 0   ,0  ,0   , 11, 0,   112,1122,  1,  0,   0,  0,    0,  0,   0,  0};
+    TreeNode<int> *head = build_list_rcr(arr, 15);
+    EXPECT_EQ("1122,112,11,1", my_post_order_traverse<int>(head));
+    clear_rcr<int>(head);
+}
+
+TEST(BinaryTree, MyPostOrderTraverse2Perfect)
+{
+    // level                                         0
+    // level                     1                                      1
+    // level           2                  2                   2                  2
+    // level      3        3         3        3          3        3         3        3
+    int arr[] = { 1111,111,1112, 11, 1121,112,1122,  1,  1211,121,1212, 12, 1221,122,1222};
+    TreeNode<int> *head = build_list_rcr(arr, 15);
+    EXPECT_EQ("1111,1112,111,1121,1122,112,11,1211,1212,121,1221,1222,122,12,1", my_post_order_traverse<int>(head));
     clear_rcr<int>(head);
 }

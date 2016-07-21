@@ -67,6 +67,15 @@ std::string post_order_traverse_1(TreeNode<T> *head);
 template <class T>
 std::string post_order_traverse_2(TreeNode<T> *head);
 
+template <class T>
+std::string my_pre_order_traverse(TreeNode<T> *head);
+
+template <class T>
+std::string my_in_order_traverse(TreeNode<T> *head);
+
+template <class T>
+std::string my_post_order_traverse(TreeNode<T> *head);
+
 #include "bst.tcc"
 
 #endif // SBT_H_

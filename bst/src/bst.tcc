@@ -348,7 +348,11 @@ std::string post_order_traverse_1(TreeNode<T> *head)
         {
             item = itemsToVisit.back();
 
-            if (lastVisited == item->right)
+            if (item->right != NULL && lastVisited != item->right)
+            {
+                item = item->right;
+            }
+            else
             {
                 //visit (item);
                 if (isFirst)
@@ -360,11 +364,6 @@ std::string post_order_traverse_1(TreeNode<T> *head)
                 lastVisited = item;
                 item = NULL;
                 itemsToVisit.pop_back();
-            }
-            else
-            {
-                lastVisited = item;
-                item = item->right;
             }
         }
     }
@@ -424,6 +423,191 @@ std::string post_order_traverse_2(TreeNode<T> *head)
             item = NULL;
         }
     } while (itemsToVisit.empty() == false);
+
+    return strm.str();
+}
+
+template <class T>
+class MyBstStackFrame
+{
+ public:
+    MyBstStackFrame(unsigned int point, TreeNode<T> *treeNode)
+        : retPoint(point), node(treeNode) {};
+    unsigned int retPoint;
+    TreeNode<T> *node;
+};
+
+/*
+ * Return stile traversing based on its own stack frames.
+ * each time stack is involved in original recursive traversing, we need to use custom stack management
+ * Stack has 1 local variable "node" and a return address/point where to continue
+ */
+template <class T>
+std::string my_pre_order_traverse(TreeNode<T> *head)
+{
+    std::stringstream strm;
+    bool isFirst = true;
+
+    std::list<MyBstStackFrame<T> > myStack;
+
+    if (head != NULL)
+        myStack.push_back(MyBstStackFrame<T>(0, head));
+
+    // retpoint is a place were we need to get back next iteration when current not is on the stack
+    while (myStack.empty() == false)
+    {
+        MyBstStackFrame<T> &local = myStack.back();
+
+        // Return Point 0. when entering a function - we have a new Call Stack
+        if (local.retPoint == 0)
+        {
+            local.retPoint = 1;
+
+            // item visiting...
+            if (isFirst)
+                isFirst = false;
+            else
+                strm << ',';
+            strm << local.node->value;
+
+            if (local.node->left != NULL)
+            {
+                // pretend like we are calling a function again.
+                myStack.push_back(MyBstStackFrame<T>(0, local.node->left));
+                continue;
+            }
+        }
+
+        if (local.retPoint == 1)
+        {
+            local.retPoint = 2;
+            if (local.node->right != NULL)
+            {
+                // pretend like we are calling a function again.
+                myStack.push_back(MyBstStackFrame<T>(0, local.node->right));
+                continue;
+            }
+        }
+
+        if (local.retPoint == 2)
+        {
+            myStack.pop_back();
+        }
+    }
+
+    return strm.str();
+}
+
+template <class T>
+std::string my_in_order_traverse(TreeNode<T> *head)
+{
+    std::stringstream strm;
+    bool isFirst = true;
+
+    std::list<MyBstStackFrame<T> > myStack;
+
+    if (head != NULL)
+        myStack.push_back(MyBstStackFrame<T>(0, head));
+
+    // retpoint is a place were we need to get back next iteration when current not is on the stack
+    while (myStack.empty() == false)
+    {
+        MyBstStackFrame<T> &local = myStack.back();
+
+        // Return Point 0. when entering a function - we have a new Call Stack
+        if (local.retPoint == 0)
+        {
+            local.retPoint = 1;
+
+            if (local.node->left != NULL)
+            {
+                // pretend like we are calling a function again.
+                myStack.push_back(MyBstStackFrame<T>(0, local.node->left));
+                continue;
+            }
+        }
+
+        if (local.retPoint == 1)
+        {
+            local.retPoint = 2;
+
+            // item visiting...
+            if (isFirst)
+                isFirst = false;
+            else
+                strm << ',';
+            strm << local.node->value;
+
+            if (local.node->right != NULL)
+            {
+                // pretend like we are calling a function again.
+                myStack.push_back(MyBstStackFrame<T>(0, local.node->right));
+                continue;
+            }
+        }
+
+        if (local.retPoint == 2)
+        {
+            myStack.pop_back();
+        }
+    }
+
+    return strm.str();
+}
+
+template <class T>
+std::string my_post_order_traverse(TreeNode<T> *head)
+{
+    std::stringstream strm;
+    bool isFirst = true;
+
+    std::list<MyBstStackFrame<T> > myStack;
+
+    if (head != NULL)
+        myStack.push_back(MyBstStackFrame<T>(0, head));
+
+    // retpoint is a place were we need to get back next iteration when current not is on the stack
+    while (myStack.empty() == false)
+    {
+        MyBstStackFrame<T> &local = myStack.back();
+
+        // Return Point 0. when entering a function - we have a new Call Stack
+        if (local.retPoint == 0)
+        {
+            local.retPoint = 1;
+
+            if (local.node->left != NULL)
+            {
+                // pretend like we are calling a function again.
+                myStack.push_back(MyBstStackFrame<T>(0, local.node->left));
+                continue;
+            }
+        }
+
+        if (local.retPoint == 1)
+        {
+            local.retPoint = 2;
+
+            if (local.node->right != NULL)
+            {
+                // pretend like we are calling a function again.
+                myStack.push_back(MyBstStackFrame<T>(0, local.node->right));
+                continue;
+            }
+        }
+
+        if (local.retPoint == 2)
+        {
+            // item visiting...
+            if (isFirst)
+                isFirst = false;
+            else
+                strm << ',';
+            strm << local.node->value;
+
+            myStack.pop_back();
+        }
+    }
 
     return strm.str();
 }
