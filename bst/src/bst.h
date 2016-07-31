@@ -76,6 +76,12 @@ std::string my_in_order_traverse(TreeNode<T> *head);
 template <class T>
 std::string my_post_order_traverse(TreeNode<T> *head);
 
+template <class T>
+std::string serialize(TreeNode<T> *head);
+
+//template <class T>
+TreeNode<int> *deserialize(const std::string &serialized);
+
 #include "bst.tcc"
 
 #endif // SBT_H_

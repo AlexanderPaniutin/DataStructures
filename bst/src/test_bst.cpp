@@ -388,3 +388,78 @@ TEST(BinaryTree, MyPostOrderTraverse2Perfect)
     EXPECT_EQ("1111,1112,111,1121,1122,112,11,1211,1212,121,1221,1222,122,12,1", my_post_order_traverse<int>(head));
     clear_rcr<int>(head);
 }
+
+TEST(BinaryTree, SerializeEmpty)
+{
+    EXPECT_EQ("", serialize<int>(NULL));
+}
+
+TEST(BinaryTree, SerializeSingle)
+{
+    TreeNode<int> *head = new TreeNode<int>(1);
+    EXPECT_EQ("1 X X ", serialize<int>(head));
+    clear_rcr<int>(head);
+}
+
+TEST(BinaryTree, SerializeRandom)
+{
+    // level                                         0
+    // level                     1                                      1
+    // level           2                  2                   2                  2
+    // level      3        3         3        3          3        3         3        3
+    int arr[] = { 0   ,0  ,0   , 11, 0,   112,1122,  1,  0,   0,  0,    0,  0,   0,  0};
+    TreeNode<int> *head = build_list_rcr(arr, 15);
+    EXPECT_EQ("1 11 X X 112 X 1122 X X ", serialize<int>(head));
+    clear_rcr<int>(head);
+}
+
+TEST(BinaryTree, SerializePerfect)
+{
+    // level                                         0
+    // level                     1                                      1
+    // level           2                  2                   2                  2
+    // level      3        3         3        3          3        3         3        3
+    int arr[] = { 1111,111,1112, 11, 1121,112,1122,  1,  1211,121,1212, 12, 1221,122,1222};
+    TreeNode<int> *head = build_list_rcr(arr, 15);
+    EXPECT_EQ("1 11 12 111 112 121 122 1111 1112 1121 1122 1211 1212 1221 1222 X X X X X X X X X X X X X X X X ",
+              serialize<int>(head));
+    clear_rcr<int>(head);
+}
+
+TEST(BinaryTree, DeserializeEmpty)
+{
+    EXPECT_EQ(NULL, deserialize(""));
+    EXPECT_EQ(NULL, deserialize(" "));
+}
+
+TEST(BinaryTree, DeserializeSingle)
+{
+    TreeNode<int> *head = deserialize("1 X X");
+    EXPECT_EQ("1", levelTraverse<int>(head));
+    clear_rcr<int>(head);
+}
+
+TEST(BinaryTree, DeserializeRandom)
+{
+    // level                                         0
+    // level                     1                                      1
+    // level           2                  2                   2                  2
+    // level      3        3         3        3          3        3         3        3
+    int arr[] = { 0   ,0  ,0   , 11, 0,   112,1122,  1,  0,   0,  0,    0,  0,   0,  0};
+    TreeNode<int> *head = deserialize("1 11 X X 112 X 1122 X X ");
+    EXPECT_EQ("1,11,112,1122", levelTraverse<int>(head));
+    clear_rcr<int>(head);
+}
+
+TEST(BinaryTree, DISABLED_DeserializePerfect)
+{
+    // level                                         0
+    // level                     1                                      1
+    // level           2                  2                   2                  2
+    // level      3        3         3        3          3        3         3        3
+    int arr[] = { 1111,111,1112, 11, 1121,112,1122,  1,  1211,121,1212, 12, 1221,122,1222};
+    TreeNode<int> *head = deserialize("1 11 12 111 112 121 122 1111 1112 1121 1122 1211 1212 1221 1222 "
+                                      "X X X X X X X X X X X X X X X X ");
+    EXPECT_EQ("1,11,12,111,112,121,122,1111,1112,1121,1122,1211,1212,1221,1222", levelTraverse<int>(head));
+    clear_rcr<int>(head);
+}

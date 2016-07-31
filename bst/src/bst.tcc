@@ -611,3 +611,95 @@ std::string my_post_order_traverse(TreeNode<T> *head)
 
     return strm.str();
 }
+
+template <class T>
+std::string serialize(TreeNode<T> *head)
+{
+    if (head == NULL)
+        return "";
+
+    std::stringstream strm;
+    std::list<TreeNode<T> *> itemsToVisit;
+
+    // process first item
+    itemsToVisit.push_back(head);
+    strm << head->value << ' ';
+
+    while (itemsToVisit.empty() == false)
+    {
+        TreeNode<T> *item = itemsToVisit.front();
+        itemsToVisit.pop_front();
+
+        // serialize left item and if not NULL - push it to the queue
+        if (item->left == NULL)
+        {
+            strm << "X ";
+        }
+        else
+        {
+            strm << item->left->value << ' ';
+            itemsToVisit.push_back(item->left);
+        }
+
+        // same with right item
+        if (item->right == NULL)
+        {
+            strm << "X ";
+        }
+        else
+        {
+            strm << item->right->value << ' ';
+            itemsToVisit.push_back(item->right);
+        }
+    }
+
+    return strm.str();
+}
+
+//template <class T>
+TreeNode<int> *deserialize(const std::string &serialized)
+{
+    if (serialized.empty())
+        return NULL;
+
+    std::stringstream strm(serialized);
+    std::list<TreeNode<int> *> itemsToVisit;
+
+    // process a head
+    TreeNode<int> *head = NULL;
+    std::string str;
+    strm >> str;
+
+    if (str.empty() || str == "X")
+    {
+        return head;
+    }
+    else
+    {
+        head = new TreeNode<int>(std::stoi(str));
+        itemsToVisit.push_back(head);
+    }
+
+    // process a queue
+    while (itemsToVisit.empty() == false)
+    {
+        TreeNode<int> *item = itemsToVisit.front();
+        itemsToVisit.pop_front();
+
+        strm >> str;
+        if (str != "X")
+        {
+            item->left = new TreeNode<int>(std::stoi(str));
+            itemsToVisit.push_back(item->left);
+        }
+
+        strm >> str;
+        if (str != "X")
+        {
+            item->right = new TreeNode<int>(std::stoi(str));
+            itemsToVisit.push_back(item->right);
+        }
+    }
+
+    return head;
+}
